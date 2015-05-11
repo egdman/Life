@@ -36,6 +36,12 @@ namespace GameOfLife
 			return oldField[h, w];
 		}
 
+		public bool GetRecent( int h, int w )
+		{
+			checkBorders( ref h, ref w );
+			return field[h, w];
+		}
+
 
 		public void SetCell( int h, int w, bool value )
 		{

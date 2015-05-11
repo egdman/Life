@@ -178,15 +178,17 @@ namespace GameOfLife
 
 		void drawField( GameField field, Graphics gr )
 		{
+			SolidBrush brush = new SolidBrush( Color.Black );
 			gr.DrawRectangle( Pens.Green, 0, 0, 10 * field.Height, 10 * field.Width );
 
 			for ( int x = 0; x < field.Height; ++x )
 			{
 				for ( int y = 0; y < field.Width; ++y )
 				{
-					if ( field.GetCell( x, y ) )
+					if ( field.GetRecent( x, y ) )
 					{
-						gr.DrawRectangle( Pens.Black, x * 10, y * 10, 10, 10 );
+						gr.FillRectangle( brush, x * 10, y * 10, 10, 10 );
+						gr.DrawRectangle( Pens.White, x * 10, y * 10, 10, 10 );
 					}
 				}
 			}
