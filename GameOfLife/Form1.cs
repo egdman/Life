@@ -24,8 +24,22 @@ namespace GameOfLife
 
 		public Form1()
 		{
+			KeyPreview = true;
 			InitializeComponent();
 		}
+
+		protected override bool IsInputKey(Keys keyData)
+		{
+			if ( keyData == Keys.X )
+			{
+				return true;
+			}
+			else
+			{
+				return base.IsInputKey(keyData);
+			}
+		}
+
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
@@ -105,10 +119,19 @@ namespace GameOfLife
 
 		private void Form1_KeyDown(object sender, KeyEventArgs e)
 		{
-			if ( e.KeyCode == Keys.Space )
+			  if ( e.KeyCode == Keys.X )
 			{
 				NextButton_Click(sender, e);
 			}
+		}
+
+		private void ClearButton_Click(object sender, EventArgs e)
+		{
+			field.Clear();
+			graphics.Clear();
+			graphics.DrawField(field);
+			graphics.Refresh();
+
 		}
     }
 
@@ -155,6 +178,7 @@ namespace GameOfLife
 
 		public void DrawNewCells( HashSet<Point> cells )
 		{
+			SolidBrush brush = new SolidBrush( Color.Red );
 			if ( cells.Count <= 0 )
 			{
 				return;
@@ -163,7 +187,8 @@ namespace GameOfLife
  			{
 				foreach( var cell in cells )
 				{
-					g.DrawRectangle( Pens.Red, cell.X*10, cell.Y*10, 10, 10 );
+					g.FillRectangle( brush, cell.X*10, cell.Y*10, 10, 10 );
+					g.DrawRectangle( Pens.White, cell.X*10, cell.Y*10, 10, 10 );
 				}
 			}
 		}

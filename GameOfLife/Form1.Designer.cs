@@ -30,6 +30,7 @@
 		{
 			this.GraphicsBox = new System.Windows.Forms.PictureBox();
 			this.NextButton = new System.Windows.Forms.Button();
+			this.ClearButton = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.GraphicsBox)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -54,11 +55,22 @@
 			this.NextButton.UseVisualStyleBackColor = true;
 			this.NextButton.Click += new System.EventHandler(this.NextButton_Click);
 			// 
+			// ClearButton
+			// 
+			this.ClearButton.Location = new System.Drawing.Point(641, 12);
+			this.ClearButton.Name = "ClearButton";
+			this.ClearButton.Size = new System.Drawing.Size(75, 23);
+			this.ClearButton.TabIndex = 2;
+			this.ClearButton.Text = "Clear";
+			this.ClearButton.UseVisualStyleBackColor = true;
+			this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(720, 412);
+			this.Controls.Add(this.ClearButton);
 			this.Controls.Add(this.NextButton);
 			this.Controls.Add(this.GraphicsBox);
 			this.Name = "Form1";
@@ -74,6 +86,7 @@
 
 		private System.Windows.Forms.PictureBox GraphicsBox;
 		private System.Windows.Forms.Button NextButton;
+		private System.Windows.Forms.Button ClearButton;
 	}
 }
 
