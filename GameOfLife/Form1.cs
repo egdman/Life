@@ -106,8 +106,8 @@ namespace GameOfLife
 				{
 					field.SetCell(cell.X, cell.Y, true);
 					var ev = new ScheduleUpdateEvent(field, cell.X, cell.Y);
-					ev.eTime = DEVS.GlobalTime + 1;
-					DEVS.ModelEvent.Enque(new ScheduleUpdateEvent(field, cell.X, cell.Y));
+					ev.eTime = DEVS.GlobalTime;
+					DEVS.ModelEvent.Enque(ev);
 				}
 				newCells.Clear();
 			}
