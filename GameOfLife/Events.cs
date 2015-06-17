@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GameOfLife;
 
 namespace EventsBase
 {
@@ -14,7 +15,6 @@ namespace EventsBase
         /// Внутренняя очерель для моделирования
         /// </summary>
         static EventsQueue EQ = new EventsQueue();
-
 
         public static double GlobalTime
         {
@@ -53,7 +53,7 @@ namespace EventsBase
             /// <summary>
             /// Добавить данное событие в очередь
             /// </summary>            
-            protected void Enque()
+            public void Enque()
             {
                 EQ.AddEvent(this);
             }
@@ -62,7 +62,7 @@ namespace EventsBase
             /// Добавить другое событие в очередь
             /// </summary>
             /// <param name="ME">Добавляемое событие</param>
-            protected static void Enque(ModelEvent ME)
+            public static void Enque(ModelEvent ME)
             {
                 EQ.AddEvent(ME);
             }
@@ -109,6 +109,8 @@ namespace EventsBase
         /// </summary>
         List<DEVS.ModelEvent> MEvents = new List<DEVS.ModelEvent>();
 
+
+
         /// <summary>
         /// Размер очереди
         /// </summary>
@@ -120,7 +122,16 @@ namespace EventsBase
 
         public double GlobalTime
         {
-            get { return globalTime; }
+            get {
+				if (QueueSize <= 0)
+				{
+					return globalTime;
+				}
+				else
+				{
+					return MEvents[0].eTime;
+				}
+			}
             set { globalTime = value; }
         }
 

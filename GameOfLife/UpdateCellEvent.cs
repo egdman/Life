@@ -7,7 +7,7 @@ using EventsBase;
 
 namespace GameOfLife
 {
-	class UpdateCellEvent : DEVS.ModelEvent
+	public class UpdateCellEvent : DEVS.ModelEvent
 	{
 
 		GameField field;
@@ -24,6 +24,7 @@ namespace GameOfLife
 
 		public override void Execute()
 		{
+			ScheduleUpdateEvent.AddedEvents.Remove( new Tuple<int,int>( x, y ) );
 			bool alive = field.GetCell(x, y);
 			if ( alive )
 			{
@@ -61,12 +62,11 @@ namespace GameOfLife
 		}
 
 
-
         void schedule()
         {
             ScheduleUpdateEvent ev = new ScheduleUpdateEvent(field, x, y);
-            ev.eTime += 1;
-            DEVS.ModelEvent.Enque(ev);
+			ev.eTime = DEVS.GlobalTime + 1;
+			DEVS.ModelEvent.Enque(ev);
         }
 
 

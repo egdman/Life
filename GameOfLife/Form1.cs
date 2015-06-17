@@ -100,25 +100,29 @@ namespace GameOfLife
 
 		private void NextButton_Click(object sender, EventArgs e)
 		{
-			if ( newCells.Count > 0 )
+			if (newCells.Count > 0)
 			{
-				foreach( var cell in newCells )
+				foreach (var cell in newCells)
 				{
-					field.SetCell( cell.X, cell.Y, true );
+					field.SetCell(cell.X, cell.Y, true);
+					var ev = new ScheduleUpdateEvent(field, cell.X, cell.Y);
+					ev.eTime = DEVS.GlobalTime + 1;
+					DEVS.ModelEvent.Enque(new ScheduleUpdateEvent(field, cell.X, cell.Y));
 				}
 				newCells.Clear();
 			}
 
+			field.Swap();
+
             double time = DEVS.GlobalTime;
-            while (time != DEVS.GlobalTime)
+            while (time == DEVS.GlobalTime)
             {
                 DEVS.ProcessNextEvent();
-            }
-
+           }
 			graphics.Clear();
 			graphics.DrawField(field);
 			graphics.Refresh();
-            field.Swap();
+
 		}
 
 
@@ -216,6 +220,7 @@ namespace GameOfLife
 				for ( int y = 0; y < field.Width; ++y )
 				{
 					if ( field.GetRecent( x, y ) )
+				//	if ( field.GetCell( x, y ) )
 					{
 						gr.FillRectangle( brush, x * 10, y * 10, 10, 10 );
 						gr.DrawRectangle( Pens.White, x * 10, y * 10, 10, 10 );
