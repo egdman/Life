@@ -39,10 +39,11 @@ namespace GameOfLife
 
 		bool updateAlive()
 		{
-			int alive = aliveNeighbours();
+			int alive = countAliveNeighbours();
 			alive -= 1; // minus self
 			if ( alive > 3 || alive < 2 )
 			{
+                schedule();
 				return false;
 			}
 			return true;
@@ -50,16 +51,27 @@ namespace GameOfLife
 
 		bool updateDead()
 		{
-			int alive = aliveNeighbours();
+			int alive = countAliveNeighbours();
 			if ( alive == 3 )
 			{
+                schedule();
 				return true;
 			}
 			return false;
 		}
 
 
-		int aliveNeighbours()
+
+        void schedule()
+        {
+            ScheduleUpdateEvent ev = new ScheduleUpdateEvent(field, x, y);
+            ev.eTime += 1;
+            DEVS.ModelEvent.Enque(ev);
+        }
+
+
+
+		int countAliveNeighbours()
 		{
 			int alive = 0;
 			for ( int i = -1; i <= 1; ++i )

@@ -109,11 +109,16 @@ namespace GameOfLife
 				newCells.Clear();
 			}
 
-			DEVS.AddStartEvent( new CheckAllEvent( field ) );
-			DEVS.ProcessAllEvents();
+            double time = DEVS.GlobalTime;
+            while (time != DEVS.GlobalTime)
+            {
+                DEVS.ProcessNextEvent();
+            }
+
 			graphics.Clear();
 			graphics.DrawField(field);
 			graphics.Refresh();
+            field.Swap();
 		}
 
 
