@@ -114,11 +114,12 @@ namespace GameOfLife
 
 			field.Swap();
 
+
             double time = DEVS.GlobalTime;
-            while (time == DEVS.GlobalTime)
-            {
-                DEVS.ProcessNextEvent();
-           }
+            while (time == DEVS.GlobalTime && DEVS.ProcessNextEvent())
+            { }
+
+        
 			graphics.Clear();
 			graphics.DrawField(field);
 			graphics.Refresh();

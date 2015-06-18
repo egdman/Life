@@ -32,9 +32,9 @@ namespace EventsBase
         /// <summary>
         /// Обработать очередное событие
         /// </summary>
-        public static void ProcessNextEvent()
+        public static bool ProcessNextEvent()
         {
-            EQ.ProcessNextEvent();
+            return EQ.ProcessNextEvent();
         }
 
 		public static void ProcessAllEvents()
@@ -173,12 +173,13 @@ namespace EventsBase
         /// <summary>
         /// Обработать очередное событие
         /// </summary>        
-        public void ProcessNextEvent()
+        public bool ProcessNextEvent()
         {
-            if (MEvents.Count == 0) return;
+            if (MEvents.Count == 0) return false;
             MEvents[0].Execute() ;
             globalTime = MEvents[0].eTime ;
-            MEvents.RemoveAt(0);         
+            MEvents.RemoveAt(0);
+            return true;
         }
 
     }    
