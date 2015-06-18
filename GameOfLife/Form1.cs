@@ -51,7 +51,9 @@ namespace GameOfLife
 		public void InitializeGraphics()
         {
             graphics = new CustomBitmap(GraphicsBox);
-            graphics.DrawField(field);           
+            graphics.Clear();
+            graphics.DrawField(field);
+            graphics.Refresh();
         }
   
         public int rgbaToColor(byte r, byte g, byte b, byte a)
@@ -98,6 +100,7 @@ namespace GameOfLife
 			graphics.Refresh();
 		}
 
+
 		private void NextButton_Click(object sender, EventArgs e)
 		{
 			if (newCells.Count > 0)
@@ -116,8 +119,7 @@ namespace GameOfLife
 
 
             double time = DEVS.GlobalTime;
-            while (time == DEVS.GlobalTime && DEVS.ProcessNextEvent())
-            { }
+            while (time == DEVS.GlobalTime && DEVS.ProcessNextEvent());
 
         
 			graphics.Clear();

@@ -132,7 +132,7 @@ namespace EventsBase
 					return MEvents[0].eTime;
 				}
 			}
-            set { globalTime = value; }
+    //        set { globalTime = value; }
         }
 
         /// <summary>
