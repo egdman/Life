@@ -20,7 +20,7 @@ namespace GameOfLife
 		GameField field;
 		CustomBitmap graphics;
 		HashSet<Point> newCells;
-
+		HashSet<Point> seenCells;
 
 		public Form1()
 		{
@@ -45,6 +45,7 @@ namespace GameOfLife
 		{
 			field = new GameField( 60, 36 );
 			newCells = new HashSet<Point>();
+			seenCells = new HashSet<Point>();
 			InitializeGraphics();
 		}
 		
@@ -77,7 +78,7 @@ namespace GameOfLife
 			graphics.Clear();
 			graphics.DrawSquare(x, y);
 			graphics.DrawField(field);
-			graphics.DrawNewCells( newCells );
+			graphics.DrawRedCells( newCells );
 			graphics.Refresh();
 		}
 
@@ -96,7 +97,7 @@ namespace GameOfLife
 				newCells.Add( loc );
 			}
 
-			graphics.DrawNewCells( newCells );
+			graphics.DrawRedCells( newCells );
 			graphics.Refresh();
 		}
 
@@ -108,24 +109,34 @@ namespace GameOfLife
 				foreach (var cell in newCells)
 				{
 					field.SetCell(cell.X, cell.Y, true);
-					var ev = new ScheduleUpdateEvent(field, cell.X, cell.Y);
-					ev.eTime = DEVS.GlobalTime;
-					DEVS.ModelEvent.Enque(ev);
+					ScheduleUpdateEvent.Add( field, cell.X, cell.Y, DEVS.GlobalTime );
 				}
 				newCells.Clear();
 			}
 
 			field.Swap();
 
-
+//			seenCells.Clear();
             double time = DEVS.GlobalTime;
-            while (time == DEVS.GlobalTime && DEVS.ProcessNextEvent());
+			while (time == DEVS.GlobalTime && DEVS.ProcessNextEvent())
+			{
+//				addSeenCell();
+			}
 
-        
 			graphics.Clear();
+			graphics.DrawGreyCells( seenCells );
 			graphics.DrawField(field);
 			graphics.Refresh();
+		}
 
+
+
+		private void addSeenCell()
+		{
+			foreach (var c in UpdateCellEvent.AddedEvents)
+			{
+				seenCells.Add(new Point( c.X, c.Y ) );
+			}
 		}
 
 
@@ -188,22 +199,36 @@ namespace GameOfLife
 		}
 
 
-		public void DrawNewCells( HashSet<Point> cells )
+		public void DrawRedCells(HashSet<Point> cells)
 		{
 			SolidBrush brush = new SolidBrush( Color.Red );
-			if ( cells.Count <= 0 )
+			DrawCells( cells, brush );
+		}
+
+
+		public void DrawGreyCells(HashSet<Point> cells)
+		{
+			SolidBrush brush = new SolidBrush( Color.Gray );
+			DrawCells( cells, brush );
+		}
+
+
+		public void DrawCells(HashSet<Point> cells, SolidBrush brush)
+		{
+			if (cells.Count <= 0)
 			{
 				return;
 			}
-			using( Graphics g = Graphics.FromImage( frontBitmap ) )
- 			{
-				foreach( var cell in cells )
+			using (Graphics g = Graphics.FromImage(frontBitmap))
+			{
+				foreach (var cell in cells)
 				{
-					g.FillRectangle( brush, cell.X*10, cell.Y*10, 10, 10 );
-					g.DrawRectangle( Pens.White, cell.X*10, cell.Y*10, 10, 10 );
+					g.FillRectangle(brush, cell.X * 10, cell.Y * 10, 10, 10);
+					g.DrawRectangle(Pens.White, cell.X * 10, cell.Y * 10, 10, 10);
 				}
 			}
 		}
+
 
 		public void Clear()
 		{

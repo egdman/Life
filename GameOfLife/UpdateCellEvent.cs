@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 using EventsBase;
 
 namespace GameOfLife
@@ -10,9 +11,25 @@ namespace GameOfLife
 	public class UpdateCellEvent : DEVS.ModelEvent
 	{
 
+		public static HashSet<Point> AddedEvents = new HashSet<Point>();
 		GameField field;
 		int x;
 		int y;
+
+
+		public static bool Add(GameField f, int X, int Y, double time)
+		{
+			f.CheckBorders( ref X, ref Y );
+			if (!AddedEvents.Contains(new Point(X, Y)))
+			{
+				var ev = new UpdateCellEvent(f, X, Y);
+				ev.eTime = time;
+				DEVS.ModelEvent.Enque(ev);
+				AddedEvents.Add(new Point(X, Y));
+				return true;
+			}
+			return false;
+		}
 
 		public UpdateCellEvent( GameField f, int X, int Y )
 		{
@@ -24,7 +41,7 @@ namespace GameOfLife
 
 		public override void Execute()
 		{
-			ScheduleUpdateEvent.AddedEvents.Remove( new Tuple<int,int>( x, y ) );
+			AddedEvents.Remove( new Point(x, y) );
 			bool alive = field.GetCell(x, y);
 			if ( alive )
 			{
@@ -64,11 +81,8 @@ namespace GameOfLife
 
         void schedule()
         {
-            ScheduleUpdateEvent ev = new ScheduleUpdateEvent(field, x, y);
-			ev.eTime = DEVS.GlobalTime + 1;
-			DEVS.ModelEvent.Enque(ev);
+			ScheduleUpdateEvent.Add( field, x, y, DEVS.GlobalTime + 1 );
         }
-
 
 
 		int countAliveNeighbours()

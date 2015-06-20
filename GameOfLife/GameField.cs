@@ -23,7 +23,7 @@ namespace GameOfLife
 		}
 
 
-		void checkBorders( ref int h, ref int w )
+		public void CheckBorders( ref int h, ref int w )
 		{
 			h = wrap( h, height );
 			w = wrap( w, width );
@@ -32,20 +32,20 @@ namespace GameOfLife
 
 		public bool GetCell( int h, int w )
 		{
-			checkBorders( ref h, ref w );
+			CheckBorders( ref h, ref w );
 			return oldField[h, w];
 		}
 
 		public bool GetRecent( int h, int w )
 		{
-			checkBorders( ref h, ref w );
+			CheckBorders( ref h, ref w );
 			return field[h, w];
 		}
 
 
 		public void SetCell( int h, int w, bool value )
 		{
-			checkBorders( ref h, ref w );
+			CheckBorders( ref h, ref w );
 			field[h, w] = value;
 		}
 
@@ -53,7 +53,7 @@ namespace GameOfLife
 
 		public bool isChanged( int h, int w )
 		{
-			checkBorders( ref h, ref w );
+			CheckBorders( ref h, ref w );
 			return ( oldField[h, w] != field[h, w] );
 		}
 
