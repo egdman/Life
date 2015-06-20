@@ -199,21 +199,21 @@ namespace GameOfLife
 		}
 
 
-		public void DrawRedCells(HashSet<Point> cells)
+		public void DrawRedCells(ICollection<Point> cells)
 		{
 			SolidBrush brush = new SolidBrush( Color.Red );
 			DrawCells( cells, brush );
 		}
 
 
-		public void DrawGreyCells(HashSet<Point> cells)
+		public void DrawGreyCells(ICollection<Point> cells)
 		{
 			SolidBrush brush = new SolidBrush( Color.Gray );
 			DrawCells( cells, brush );
 		}
 
 
-		public void DrawCells(HashSet<Point> cells, SolidBrush brush)
+		public void DrawCells(ICollection<Point> cells, SolidBrush brush)
 		{
 			if (cells.Count <= 0)
 			{
