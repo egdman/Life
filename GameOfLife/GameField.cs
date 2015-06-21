@@ -98,7 +98,8 @@ namespace GameOfLife
 			{
 				for ( int y = 0; y < width; ++y )
 				{
-					field[x, y] = false;
+					field	[x, y]	= false;
+					oldField[x, y]	= false;
 				}
 			}
 		}

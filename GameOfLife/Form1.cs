@@ -21,6 +21,8 @@ namespace GameOfLife
 		CustomBitmap graphics;
 		HashSet<Point> newCells;
 		HashSet<Point> seenCells;
+		
+		bool showEvents;
 
 		public Form1()
 		{
@@ -46,6 +48,7 @@ namespace GameOfLife
 			field = new GameField( 60, 36 );
 			newCells = new HashSet<Point>();
 			seenCells = new HashSet<Point>();
+			showEvents = false;
 			InitializeGraphics();
 		}
 		
@@ -116,11 +119,11 @@ namespace GameOfLife
 
 			field.Swap();
 
-//			seenCells.Clear();
+			if (showEvents) { seenCells.Clear(); }
             double time = DEVS.GlobalTime;
 			while (time == DEVS.GlobalTime && DEVS.ProcessNextEvent())
 			{
-//				addSeenCell();
+				if (showEvents) { addSeenCell(); }
 			}
 
 			graphics.Clear();
@@ -150,11 +153,21 @@ namespace GameOfLife
 
 		private void ClearButton_Click(object sender, EventArgs e)
 		{
+
 			field.Clear();
 			graphics.Clear();
 			graphics.DrawField(field);
 			graphics.Refresh();
 
+		}
+
+		private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar == 'e')
+			{
+				showEvents = !showEvents;
+				if (!showEvents) { seenCells.Clear(); }
+			}
 		}
     }
 
