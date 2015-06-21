@@ -55,9 +55,10 @@ namespace GameOfLife
 		public void InitializeGraphics()
         {
             graphics = new CustomBitmap(GraphicsBox);
-            graphics.Clear();
-            graphics.DrawField(field);
-            graphics.Refresh();
+			graphics.Clear();
+			//graphics.DrawField(field);
+			//graphics.Refresh();
+			drawFrame();
         }
   
         public int rgbaToColor(byte r, byte g, byte b, byte a)
@@ -80,9 +81,7 @@ namespace GameOfLife
 			y /= 10;
 			graphics.Clear();
 			graphics.DrawSquare(x, y);
-			graphics.DrawField(field);
-			graphics.DrawRedCells( newCells );
-			graphics.Refresh();
+			drawFrame();
 		}
 
 
@@ -100,8 +99,9 @@ namespace GameOfLife
 				newCells.Add( loc );
 			}
 
-			graphics.DrawRedCells( newCells );
-			graphics.Refresh();
+			//graphics.DrawRedCells( newCells );
+			//graphics.Refresh();
+			drawFrame();
 		}
 
 
@@ -127,9 +127,10 @@ namespace GameOfLife
 			}
 
 			graphics.Clear();
-			graphics.DrawGreyCells( seenCells );
-			graphics.DrawField(field);
-			graphics.Refresh();
+			//graphics.DrawGreyCells( seenCells );
+			//graphics.DrawField(field);
+			//graphics.Refresh();
+			drawFrame();
 		}
 
 
@@ -156,9 +157,9 @@ namespace GameOfLife
 
 			field.Clear();
 			graphics.Clear();
-			graphics.DrawField(field);
-			graphics.Refresh();
-
+			//graphics.DrawField(field);
+			//graphics.Refresh();
+			drawFrame();
 		}
 
 		private void Form1_KeyPress(object sender, KeyPressEventArgs e)
@@ -167,8 +168,20 @@ namespace GameOfLife
 			{
 				showEvents = !showEvents;
 				if (!showEvents) { seenCells.Clear(); }
+				graphics.Clear();
+				drawFrame();
 			}
 		}
+
+
+		private void drawFrame()
+		{
+			graphics.DrawGreyCells(seenCells);
+			graphics.DrawField(field);
+			graphics.DrawRedCells(newCells);
+			graphics.Refresh();
+		}
+
     }
 
   
