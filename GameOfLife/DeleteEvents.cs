@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 using EventsBase;
+
 
 namespace GameOfLife
 {
@@ -21,29 +23,46 @@ namespace GameOfLife
 
 
 
-        public DeleteEvents(GameField f) : base (-1, -1)
+        public DeleteEvents(GameField f)
 		{
 			field = f;
 		}
 
 		public override void Execute()
 		{
-			foreach (var updEv in UpdateCellEvent.AddedEvents)
+			List<LocalEvent> eventsToDelete = new List<LocalEvent>();
+
+			foreach ( var ev in DEVS.EventQueue )
 			{
 				bool deleteThis = true;
-				int x = updEv.X;
-				int y = updEv.Y;
-				for (int i = -1; i <= 1; ++i)
+				if (ev is LocalEvent)
 				{
-					for (int j = -1; j <= 1; ++j)
+					var locEv = (LocalEvent)ev;
+					int x = locEv.X;
+					int y = locEv.Y;
+
+					for (int i = -1; i <= 1; ++i)
 					{
-						if (field.isChanged(x+i, y+j))
+						for (int j = -1; j <= 1; ++j)
 						{
-							deleteThis = false;
+							if (field.isChanged(x + i, y + j))
+							{
+								deleteThis = false;
+							}
 						}
 					}
+					if (deleteThis)
+					{
+						eventsToDelete.Add( locEv );
+	
+					}
 				}
-				if (deleteThis) { DEVS.ModelEvent.Delete(updEv.X, updEv.Y); }
+			}
+
+			foreach (var locEv in eventsToDelete)
+			{
+				DEVS.ModelEvent.Delete(locEv.X, locEv.Y);
+				locEv.Remove();
 			}
 		}
 

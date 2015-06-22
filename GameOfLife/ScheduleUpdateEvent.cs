@@ -8,7 +8,7 @@ using EventsBase;
 
 namespace GameOfLife
 {
-	public class ScheduleUpdateEvent : DEVS.ModelEvent
+	public class ScheduleUpdateEvent : LocalEvent
 	{
 		public static HashSet<Point> AddedEvents = new HashSet<Point>();
 		GameField field;
@@ -26,6 +26,11 @@ namespace GameOfLife
 				return true;
 			}
 			return false;
+		}
+
+		public override bool Remove()
+		{
+			return ScheduleUpdateEvent.AddedEvents.Remove(new Point(X, Y) );
 		}
 
 

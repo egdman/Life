@@ -8,11 +8,12 @@ using EventsBase;
 
 namespace GameOfLife
 {
-	public class UpdateCellEvent : DEVS.ModelEvent
+	public class UpdateCellEvent : LocalEvent
 	{
 
 		public static HashSet<Point> AddedEvents = new HashSet<Point>();
 		GameField field;
+
 
 		public static bool Add(GameField f, int X, int Y, double time)
 		{
@@ -27,6 +28,13 @@ namespace GameOfLife
 			}
 			return false;
 		}
+
+
+		public override bool Remove()
+		{
+			return UpdateCellEvent.AddedEvents.Remove(new Point(X, Y));
+		}
+
 
 		public UpdateCellEvent( GameField f, int X, int Y ) : base( X, Y )
 		{

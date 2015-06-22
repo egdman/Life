@@ -128,10 +128,10 @@ namespace GameOfLife
 				if (showEvents) { addSeenCell(); }
 			}
 
-            if (DEVS.EventCount <= 0)
-            {
-                MessageBox.Show("No events");
-            }
+			//if (DEVS.EventCount <= 0)
+			//{
+			//	MessageBox.Show("No events");
+			//}
 
 			graphics.Clear();
 			drawFrame();

@@ -74,24 +74,6 @@ namespace EventsBase
             }
 
 
-			public int X
-			{
-				get;
-				set;
-			}
-
-			public int Y
-			{
-				get;
-				set;
-			}
-
-			public ModelEvent(int x, int y)
-			{
-				X = x;
-				Y = y;
-			}
-
             /// <summary>
             /// Добавить другое событие в очередь
             /// </summary>
@@ -103,7 +85,21 @@ namespace EventsBase
 
 			public static void Delete( int X, int Y )
 			{
-				EQ.EventQueue.RemoveAll(ev => ev.X == X && ev.Y == Y);
+				
+				EQ.EventQueue.RemoveAll(ev =>
+					{
+						if (ev is LocalEvent)
+						{
+							return 
+								((LocalEvent)ev).X == X &&
+								((LocalEvent)ev).Y == Y;
+						}
+						return false;
+					});
+				
+
+
+
 			}
 
 
