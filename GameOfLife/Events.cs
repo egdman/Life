@@ -44,7 +44,22 @@ namespace EventsBase
 				ProcessNextEvent();
 			}
 		}
-  
+
+        static public int EventCount
+        {
+            get { return EQ.QueueSize; }
+        }
+
+
+		static public List<ModelEvent> EventQueue
+		{
+			get
+			{
+				return EQ.EventQueue;
+			}
+		}
+	
+
         /// <summary>
         /// Класс для модельного события
         /// </summary>
@@ -58,6 +73,25 @@ namespace EventsBase
                 EQ.AddEvent(this);
             }
 
+
+			public int X
+			{
+				get;
+				set;
+			}
+
+			public int Y
+			{
+				get;
+				set;
+			}
+
+			public ModelEvent(int x, int y)
+			{
+				X = x;
+				Y = y;
+			}
+
             /// <summary>
             /// Добавить другое событие в очередь
             /// </summary>
@@ -66,6 +100,12 @@ namespace EventsBase
             {
                 EQ.AddEvent(ME);
             }
+
+			public static void Delete( int X, int Y )
+			{
+				EQ.EventQueue.RemoveAll(ev => ev.X == X && ev.Y == Y);
+			}
+
 
             double _eTime;
 
@@ -109,6 +149,13 @@ namespace EventsBase
         /// </summary>
         List<DEVS.ModelEvent> MEvents = new List<DEVS.ModelEvent>();
 
+		public List<DEVS.ModelEvent> EventQueue
+		{
+			get 
+			{
+				return MEvents;
+			}
+		}
 
 
         /// <summary>

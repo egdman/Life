@@ -119,6 +119,8 @@ namespace GameOfLife
 
 			field.Swap();
 
+			DeleteEvents.Add(field, DEVS.GlobalTime);
+
 			if (showEvents) { seenCells.Clear(); }
             double time = DEVS.GlobalTime;
 			while (time == DEVS.GlobalTime && DEVS.ProcessNextEvent())
@@ -126,10 +128,12 @@ namespace GameOfLife
 				if (showEvents) { addSeenCell(); }
 			}
 
+            if (DEVS.EventCount <= 0)
+            {
+                MessageBox.Show("No events");
+            }
+
 			graphics.Clear();
-			//graphics.DrawGreyCells( seenCells );
-			//graphics.DrawField(field);
-			//graphics.Refresh();
 			drawFrame();
 		}
 

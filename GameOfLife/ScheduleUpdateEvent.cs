@@ -12,8 +12,7 @@ namespace GameOfLife
 	{
 		public static HashSet<Point> AddedEvents = new HashSet<Point>();
 		GameField field;
-		int x;
-		int y;
+
 
 		public static bool Add(GameField f, int X, int Y, double time)
 		{
@@ -30,21 +29,19 @@ namespace GameOfLife
 		}
 
 
-		public ScheduleUpdateEvent(GameField f, int X, int Y)
+		public ScheduleUpdateEvent(GameField f, int X, int Y) : base( X, Y )
 		{
 			field = f;
-			x = X;
-			y = Y;
 		}
 
 		public override void Execute()
 		{
-			AddedEvents.Remove(new Point(x, y));
+			AddedEvents.Remove(new Point(X, Y));
 			for (int i = -1; i <= 1; ++i)
 			{
 				for (int j = -1; j <= 1; ++j)
 				{
-					UpdateCellEvent.Add( field, x + i, y + j, DEVS.GlobalTime );
+					UpdateCellEvent.Add( field, X + i, Y + j, DEVS.GlobalTime );
 				}
 			}
 		}

@@ -11,7 +11,7 @@ namespace GameOfLife
 	{
 		GameField field;
  
-		public CheckAllEvent( GameField f ) : base()
+		public CheckAllEvent( GameField f ) : base( -1, -1 )
 		{
 			field = f;
 		}
